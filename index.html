@@ -1,0 +1,54 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#001121">
+  <title>iDance — Find your sound</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="app.js" defer></script>
+</head>
+<body>
+  <!-- A fixed 1080 × 1920 canvas scales to fit the available screen. -->
+  <div class="screen" id="screen">
+    <main class="kiosk" id="main" inert>
+      <div class="music-background" id="music-background" aria-hidden="true"></div>
+      <div class="stage-lights" aria-hidden="true">
+        <span class="stage-light stage-light-left"></span>
+        <span class="stage-light stage-light-right"></span>
+      </div>
+      <header class="header">
+        <div class="brands" aria-label="iDance and King Jouet">
+          <div class="idance"><span class="brand-face" aria-hidden="true">♬</span> iDance<sup>®</sup></div>
+          <div class="king">King<span aria-hidden="true">♛</span>Jouet</div>
+        </div>
+      </header>
+
+      <section class="demo" aria-label="Product demonstration">
+        <video id="demo-video" controls playsinline preload="metadata" poster="assets/demo-poster.jpg" src="vo/G600L_PACK_EN_10MB.mp4"></video>
+        <button class="demo-overlay" id="play-demo" aria-label="Play product demonstration">
+          <span class="play-circle" aria-hidden="true"><svg viewBox="0 0 60 60"><path d="M16 7 55 30 16 53Z"/></svg></span>
+        </button>
+      </section>
+
+      <section class="categories" aria-labelledby="category-heading">
+        <h2 id="category-heading">Find your <span>sound</span></h2>
+        <div class="category-grid" id="categories"></div>
+      </section>
+
+      <section class="spotlight" aria-labelledby="product-heading">
+        <h2 id="product-heading">Spotlight <span>products</span></h2>
+        <p class="product-count" id="product-count" aria-live="polite"></p>
+        <div class="product-grid" id="products"></div>
+      </section>
+
+    </main>
+
+    <!-- Muted playback allows the opening video to autoplay in browsers. -->
+    <button class="intro" id="intro" aria-label="Tap anywhere to enter iDance">
+      <video id="intro-video" src="vo/web-vo.mp4" autoplay muted loop playsinline preload="auto"></video>
+    </button>
+
+  </div>
+</body>
+</html>

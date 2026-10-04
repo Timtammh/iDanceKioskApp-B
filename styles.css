@@ -1,0 +1,97 @@
+/* 1. Theme and portrait canvas */
+:root { color-scheme: dark; --cyan: #08e2ef; --navy: #001121; --line: #15669c; --muted: #b6c1d5; }
+* { box-sizing: border-box; }
+body { margin: 0; background: #00060d; color: #fff; font-family: Arial, Helvetica, sans-serif; overflow: hidden; }
+button { font: inherit; color: inherit; cursor: pointer; -webkit-tap-highlight-color: transparent; }
+button:focus-visible { outline: 4px solid #fff; outline-offset: 5px; }
+button, video { touch-action: manipulation; }
+[hidden] { display: none !important; }
+.screen { position: absolute; width: 1080px; height: 1920px; transform-origin: top left; overflow: hidden; background: var(--navy); }
+.kiosk { height: 100%; padding: 24px 30px 20px; background: radial-gradient(ellipse at 0% 2%, #07549080, transparent 24%), radial-gradient(ellipse at 100% 0%, #82116b70, transparent 24%), linear-gradient(165deg, #000916, #001426 48%, #000d1b); }
+/* Decorative particles sit behind the content and never intercept taps. */
+.kiosk { position: relative; isolation: isolate; }
+.kiosk > header, .kiosk > section { position: relative; z-index: 1; }
+.music-background { position: absolute; inset: 0; overflow: hidden; pointer-events: none; z-index: 0; }
+.music-particle {
+  position: absolute;
+  left: var(--x);
+  top: var(--y);
+  color: var(--particle-color);
+  font-size: var(--size);
+  line-height: 1;
+  opacity: .3;
+  animation: float-music var(--duration) ease-in-out var(--delay) infinite alternate;
+  animation-play-state: paused;
+}
+.music-particle.dot { width: var(--size); height: var(--size); border-radius: 50%; background: currentColor; box-shadow: 0 0 18px currentColor; }
+.kiosk:not([inert]) .music-particle { animation-play-state: running; }
+@keyframes float-music {
+  from { transform: translate3d(-12px, 35px, 0) rotate(-12deg); opacity: .15; }
+  to { transform: translate3d(25px, -65px, 0) rotate(15deg); opacity: .42; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .music-particle { animation: none; opacity: .22; }
+}
+h2, p { margin: 0; }
+h2 { font-size: 52px; line-height: 1.13; font-weight: 800; letter-spacing: -1.5px; }
+h2 span { color: var(--cyan); }
+
+/* 2. Brand header and main demonstration */
+.stage-lights { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
+.stage-light { position: absolute; top: -12px; width: 340px; height: 410px; filter: blur(7px); }
+.stage-light-left { left: -65px; --light-color: 35, 191, 255; transform: rotate(-24deg); transform-origin: 50% 0; }
+.stage-light-right { right: -65px; --light-color: 216, 76, 255; transform: rotate(24deg); transform-origin: 50% 0; }
+/* A defined, feathered beam plus a bright source and surrounding halo. */
+.stage-light::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  clip-path: polygon(48% 0, 52% 0, 94% 100%, 6% 100%);
+  background: linear-gradient(to bottom, rgba(var(--light-color), .8), rgba(var(--light-color), .38) 28%, rgba(var(--light-color), .12) 65%, transparent);
+}
+.stage-light::after {
+  content: '';
+  position: absolute;
+  top: -28px;
+  left: calc(50% - 55px);
+  width: 110px;
+  height: 110px;
+  background: radial-gradient(ellipse, rgba(240, 252, 255, .95) 0 5%, rgba(var(--light-color), .65) 18%, rgba(var(--light-color), .2) 40%, transparent 72%);
+}
+.header { height: 120px; text-align: center; position: relative; }
+.brands { height: 99px; display: flex; justify-content: center; align-items: center; gap: 64px; }
+.idance { display: flex; align-items: center; color: var(--cyan); font-size: 66px; font-weight: 700; letter-spacing: -3px; }
+.idance sup { font-size: 14px; align-self: flex-start; margin-top: 25px; letter-spacing: 0; }
+.brand-face { display: grid; place-items: center; border: 6px solid var(--cyan); border-radius: 46%; font-size: 47px; width: 73px; height: 78px; margin-right: 15px; }
+.king { font-size: 52px; font-weight: 800; color: #f82042; letter-spacing: -3px; }
+.king span { color: #ffc631; font-size: 66px; }
+.demo { aspect-ratio: 16 / 9; width: calc(100% + 60px); margin-inline: -30px; position: relative; border: 0; border-radius: 0; overflow: hidden; background: #000; }
+.demo video { display: block; width: 100%; height: 100%; object-fit: contain; }
+.demo-overlay { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); width: 125px; height: 125px; padding: 0; border: 0; border-radius: 50%; background: transparent; }
+.play-circle { display: grid; place-items: center; width: 100%; height: 100%; border: 4px solid var(--cyan); background: #00111dcc; border-radius: 50%; }
+.play-circle svg { width: 62px; height: 62px; fill: white; }
+
+/* 3. Twelve touch-friendly category buttons */
+.categories { margin-top: 29px; }
+.category-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin-top: 11px; }
+.category { height: 125px; border: 1px solid var(--line); border-radius: 15px; background: linear-gradient(125deg, #071f36aa, #00101faa); display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 7px; font-size: 22px; font-weight: 700; }
+.category svg { width: 70px; height: 65px; fill: none; stroke: currentColor; stroke-width: 2.4; stroke-linecap: round; stroke-linejoin: round; }
+.category[aria-pressed="true"] { background: var(--cyan); border-color: var(--cyan); color: #00111a; box-shadow: inset 0 0 28px #aaffff30; }
+.category:hover { border-color: var(--cyan); }
+
+/* 4. Product cards */
+.spotlight { margin-top: 28px; }
+.product-count { color: var(--muted); font-size: 25px; margin: 5px 0 12px; }
+.product-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; min-height: 510px; align-content: start; }
+.product { height: 250px; position: relative; text-align: left; border-radius: 15px; border: 1px solid var(--line); overflow: hidden; padding: 0 17px 12px; background: radial-gradient(ellipse at 50% 20%, #264763, #051a30 70%); }
+.product:hover { border-color: var(--cyan); }
+.product[aria-pressed="true"] { border-color: var(--cyan); box-shadow: inset 0 0 0 3px var(--cyan), 0 0 16px #08e2ef30; }
+.product img { display: block; width: calc(100% + 34px); margin-left: -17px; height: 164px; object-fit: contain; }
+.product-name { display: block; font-size: 22px; font-weight: 700; white-space: nowrap; }
+.price { display: block; font-size: 40px; color: var(--cyan); font-weight: 800; line-height: 1.2; }
+.empty-state { grid-column: 1 / -1; padding: 65px 25px; color: var(--muted); text-align: center; font-size: 28px; border: 1px solid var(--line); border-radius: 15px; }
+
+/* 5. Opening screen */
+.intro { position: absolute; inset: 0; border: 0; padding: 0; width: 100%; height: 100%; background: #000; }
+.intro video { width: 100%; height: 100%; object-fit: cover; pointer-events: none; }
+.intro { z-index: 2; }
