@@ -59,17 +59,21 @@ function resetIdleTimer() {
 ['pointerdown', 'pointermove', 'keydown', 'wheel', 'touchstart', 'touchmove'].forEach(event => {
   document.addEventListener(event, resetIdleTimer, { passive: true });
 });
-// A small, fixed set of particles keeps the background light on kiosk hardware.
+// Spread particles across a grid so every area gets notes and dots.
 function createMusicBackground() {
   const background = document.querySelector('#music-background');
   const fragment = document.createDocumentFragment();
-  for (let index = 0; index < 45; index += 1) {
+  const columns = 6;
+  const rows = 12;
+  for (let index = 0; index < columns * rows; index += 1) {
+    const column = index % columns;
+    const row = Math.floor(index / columns);
     const particle = document.createElement('span');
-    const isNote = index % 3 === 0;
+    const isNote = (column + row) % 3 === 0;
     particle.className = `music-particle${isNote ? '' : ' dot'}`;
-    particle.textContent = isNote ? ['♪', '♫', '♬'][index / 3 % 3] : '';
-    particle.style.setProperty('--x', `${(index * 37 + 4) % 100}%`);
-    particle.style.setProperty('--y', `${(index * 23 + 3) % 100}%`);
+    particle.textContent = isNote ? ['♪', '♫', '♬'][Math.floor((column + row) / 3) % 3] : '';
+    particle.style.setProperty('--x', `${(column + 0.35 + (row % 2) * 0.2) * 100 / columns}%`);
+    particle.style.setProperty('--y', `${(row + 0.5) * 100 / rows}%`);
     particle.style.setProperty('--size', `${isNote ? 32 + index % 4 * 8 : 4 + index % 5 * 2}px`);
     particle.style.setProperty('--duration', `${8 + index % 7}s`);
     particle.style.setProperty('--delay', `${-index * 1.7}s`);
