@@ -24,7 +24,6 @@ const icons = {
   'mini VERSE': '<path d="m32 5 12 7v14l-12 7-12-7V12Zm-12 7 12 7 12-7M32 19v14M7 34l12-7 13 7v15l-13 8-12-8Zm0 0 12 8 13-8M19 42v15m13-23 13-7 12 7v15l-12 8-13-8m0-15 13 8 12-8M45 42v15"/>',
   mySTAGE: '<path d="m18 54 10-31h8l11 31ZM32 4v8M13 12l6 7m32-7-6 7M6 32h9m34 0h9M9 53l7-7m39 7-7-7M27 19h10"/>',
   'Groove Brix': '<path d="M5 12h15v17H5Zm20 0h15v17H25Zm20 0h15v17H45ZM5 35h15v17H5Zm20 0h15v17H25Zm20 0h15v17H45Z"/>',
-  'View all': '<rect x="10" y="12" width="18" height="18" rx="2"/><rect x="36" y="12" width="18" height="18" rx="2"/><rect x="10" y="38" width="18" height="18" rx="2"/><rect x="36" y="38" width="18" height="18" rx="2"/>',
 };
 
 const screen = document.querySelector('#screen');
@@ -91,7 +90,7 @@ function selectCategory(category) {
   document.querySelectorAll('.category').forEach(button => {
     button.setAttribute('aria-pressed', String(button.dataset.category === category));
   });
-  const filtered = products.filter(product => category === 'View all' || product.categories.includes(category));
+  const filtered = products.filter(product => product.categories.includes(category));
   document.querySelector('#product-count').textContent = `${category} / ${filtered.length} products`;
   const grid = document.querySelector('#products');
   grid.replaceChildren();
@@ -101,7 +100,7 @@ function selectCategory(category) {
     card.type = 'button';
     card.className = 'product';
     card.setAttribute('aria-pressed', String(selectedProduct === product));
-    card.innerHTML = `<img src="${product.image}" alt="" draggable="false"><span class="product-name">${product.name}</span><span class="price">€${product.price}</span>`;
+    card.innerHTML = `<img src="${product.image}" alt="" draggable="false"><span class="product-name">${product.name}</span><span class="price"><span class="currency">€</span>${product.price}</span>`;
     card.addEventListener('click', () => {
       selectedProduct = product;
       grid.querySelectorAll('.product').forEach(item => {
