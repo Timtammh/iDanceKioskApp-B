@@ -20,7 +20,7 @@
       <header class="header">
         <div class="brands" aria-label="iDance and King Jouet">
           <img class="idance-logo" src="assets/logo-H.svg" alt="iDance">
-          <img class="king-logo" src="assets/JClogo.svg" alt="King Jouet">
+          <img class="king-logo" src="assets/kj.png" alt="King Jouet">
         </div>
       </header>
 
@@ -42,10 +42,11 @@
 
     </main>
 
-    <!-- Muted playback allows the opening video to autoplay in browsers. -->
+    <!-- Audio falls back to muted playback if autoplay is restricted. -->
     <button class="intro" id="intro" aria-label="Tap anywhere to enter iDance">
-      <video id="intro-video" src="vo/web-vo.mp4" autoplay muted loop playsinline preload="auto"></video>
+      <video id="intro-video" src="vo/web-voB.mp4" autoplay loop playsinline preload="auto"></video>
     </button>
+    <button class="intro-sound" id="intro-sound" aria-label="Mute opening video" aria-pressed="false">Mute</button>
 
   </div>
 </body>

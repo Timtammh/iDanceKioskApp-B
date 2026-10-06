@@ -30,11 +30,33 @@ const screen = document.querySelector('#screen');
 const main = document.querySelector('#main');
 const intro = document.querySelector('#intro');
 const introVideo = document.querySelector('#intro-video');
+const introSound = document.querySelector('#intro-sound');
 const demoVideo = document.querySelector('#demo-video');
 const playDemo = document.querySelector('#play-demo');
 let selectedProduct = null;
 const IDLE_TIMEOUT_MS = 3 * 60 * 1000;
 let idleTimer;
+
+function updateIntroSound() {
+  introSound.textContent = introVideo.muted ? 'Sound on' : 'Mute';
+  introSound.setAttribute('aria-label', introVideo.muted ? 'Unmute opening video' : 'Mute opening video');
+  introSound.setAttribute('aria-pressed', String(introVideo.muted));
+}
+
+function playIntro() {
+  return introVideo.play().catch(() => {
+    introVideo.muted = true;
+    updateIntroSound();
+    return introVideo.play().catch(() => {});
+  });
+}
+
+introSound.addEventListener('click', () => {
+  introVideo.muted = !introVideo.muted;
+  updateIntroSound();
+  playIntro();
+});
+introVideo.addEventListener('volumechange', updateIntroSound);
 
 function restartIntro() {
   clearTimeout(idleTimer);
@@ -44,8 +66,9 @@ function restartIntro() {
   selectCategory('Keyboards');
   main.inert = true;
   intro.hidden = false;
+  introSound.hidden = false;
   introVideo.currentTime = 0;
-  introVideo.play().catch(() => {});
+  playIntro();
   intro.focus({ preventScroll: true });
 }
 
@@ -147,6 +170,7 @@ Object.entries(icons).forEach(([name, drawing]) => {
 intro.addEventListener('click', () => {
   introVideo.pause();
   intro.hidden = true;
+  introSound.hidden = true;
   main.inert = false;
   playDemo.focus({ preventScroll: true });
   resetIdleTimer();
@@ -160,3 +184,5 @@ window.addEventListener('resize', fitScreen);
 fitScreen();
 createMusicBackground();
 selectCategory('Keyboards');
+updateIntroSound();
+playIntro();
